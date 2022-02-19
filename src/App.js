@@ -6,6 +6,7 @@ import AuthPage from "./components/pages/AuthPage";
 import MoviesPage from "./components/pages/MoviesPage";
 import AuthContext from "./components/store/authentication-context";
 
+
 function App() {
   const authCtx = useContext(AuthContext);
 
