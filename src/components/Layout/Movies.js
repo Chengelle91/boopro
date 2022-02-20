@@ -30,11 +30,6 @@ const Movies = (props) => {
     imgUrls();
   }, []);
 
-  // useEffect(() => {
-  //   if (currentFocus) {
-  //     focusRef.current.focus();
-  //   }
-  // }, [currentFocus]);
   const [focus, setFocus] = useState();
   const focusRef = useRef();
 
@@ -48,7 +43,7 @@ const Movies = (props) => {
   return (
     <div className={classes.mainDiv} name="firstDiv">
       {images.map((ele, genreIndex) => {
-        <h2 className={classes.h2}>{genres[genreIndex].name}</h2>; //some if block that shows modal only if focused
+        <h2 className={classes.h2}>{genres[genreIndex].name}</h2>;
         return (
           <div key={genres[genreIndex].name}>
             <div key={genreIndex} className={classes.div}>
@@ -62,11 +57,9 @@ const Movies = (props) => {
                     tabIndex="0"
                     alt=""
                     ref={focusRef}
-                    onClick={
-                      focus &&
-                      setShowModal(true) &&
-                      setModalData(movieData[genreIndex].results[index])
-                    }
+                    onFocus={function modal() {
+                      setModalData(movieData[genreIndex].results[index]);
+                    }}
                   />
                 );
               })}
@@ -74,7 +67,12 @@ const Movies = (props) => {
           </div>
         );
       })}
-      {showModal && <Modal showModal={showModal} modalData={modalData} />}
+      <Modal
+        openModal={() => setShowModal(true)}
+        showModal={showModal}
+        modalData={modalData}
+        onClose={() => setShowModal(false)}
+      />
     </div>
   );
 };
