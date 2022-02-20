@@ -1,9 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import genres from "./genres.json";
+import Modal from "./Modal";
 import classes from "./Movies.module.css";
 
-const Movies = () => {
+const Movies = (props) => {
   const [images, setImages] = useState([]);
+  const [movieData, setMovieData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState();
 
   useEffect(() => {
     const imgUrls = () => {
@@ -19,6 +23,7 @@ const Movies = () => {
           result.results.map((poster) => baseImgUrl + poster.poster_path)
         );
 
+        setMovieData(results);
         setImages(images);
       });
     };
@@ -34,31 +39,42 @@ const Movies = () => {
   const focusRef = useRef();
 
   useEffect(() => {
-    setFocus(focusRef.current?._root?.focus?.());
-  }, []);
+    const firstImg = document.getElementById("0");
+    if (firstImg) {
+      firstImg.focus();
+    }
+  }, [images]);
 
   return (
     <div className={classes.mainDiv} name="firstDiv">
-      {images.map((ele, index) => {
+      {images.map((ele, genreIndex) => {
+        <h2 className={classes.h2}>{genres[genreIndex].name}</h2>; //some if block that shows modal only if focused
         return (
-          <div key={index} className={classes.div}>
-            <h2 className={classes.h2}>{genres[index].name}</h2> //some if block that shows modal only if focused
-            {ele.map((imgLink, index) => {
-              return (
-                <img
-                  className={classes.img}
-                  src={imgLink}
-                  key={index}
-                  alt=""
-                  ref={focusRef}
-                  onClick={focus}
-                  
-                />
-              );
-            })}
+          <div key={genres[genreIndex].name}>
+            <div key={genreIndex} className={classes.div}>
+              {ele.map((imgLink, index) => {
+                return (
+                  <img
+                    id={genreIndex + index}
+                    className={classes.img}
+                    src={imgLink}
+                    key={index}
+                    tabIndex="0"
+                    alt=""
+                    ref={focusRef}
+                    onClick={
+                      focus &&
+                      setShowModal(true) &&
+                      setModalData(movieData[genreIndex].results[index])
+                    }
+                  />
+                );
+              })}
+            </div>
           </div>
         );
       })}
+      {showModal && <Modal showModal={showModal} modalData={modalData} />}
     </div>
   );
 };

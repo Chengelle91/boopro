@@ -1,34 +1,31 @@
+
 .div {
   display: flex;
   position: relative;
   width: 100%;
   background-color: white;
-  height: 360px;
   overflow: scroll;
   overflow-x: scroll;
   overflow-y: hidden;
 }
 
 .img {
-  display:inline;
+  border: 10px solid transparent;
+  display: inline;
   position: relative;
-  padding-right: 5px;
+  /* padding-right: 10px; */
   padding-bottom: 10px;
-  width: 20%;
+  width: calc(100% / 6);
   box-sizing: border-box;
   height: 400px;
   margin-bottom: 20px;
   /* float: left; */
-  
-  
 }
 .img:focus {
-    
-    border-style: 10px solid red;
+  border: 10px solid red;
+  padding: 0;
 }
 
-h2 {
+.h2 {
   display: block;
-  position: absolute;
 }
-
