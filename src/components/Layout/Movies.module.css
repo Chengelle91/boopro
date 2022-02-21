@@ -8,25 +8,21 @@
   overflow: scroll;
   overflow-x: scroll;
   overflow-y: hidden;
-  
+  scroll-behavior: smooth;
+
 }
-.div ::-webkit-scrollbar {
-    text-overflow: ellipsis;
-white-space: nowrap;
-overflow: hidden;
+.div::-webkit-scrollbar {
+ display: none;
 }
 
 .img {
-  border: 10px solid transparent;
-  display: inline;
+  display: inline-block;
   position: relative;
-  padding-right: 10px;
   padding-bottom: 10px;
-  width: 16.5%;
+  width: calc(100%/6);
   box-sizing: border-box;
-  height: 400px;
-  margin-bottom: 20px;
-  object-fit: contain;
+  margin-bottom: 10px;
+  /* object-fit: contain; */
 }
 .img:focus {
   border: 10px solid red;

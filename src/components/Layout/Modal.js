@@ -14,7 +14,7 @@ const Modal = (props) => {
     return function cleanup() {
       document.body.removeEventListener("keydown", closeOnEscapeButton);
     };
-  }, []);
+  }, );
   const openOnEnterButton = (e) => {
     if (e.keyCode === 13) {
       props.openModal();
@@ -26,7 +26,7 @@ const Modal = (props) => {
     return function cleanup() {
       document.body.removeEventListener("keydown", openOnEnterButton);
     };
-  }, []);
+  }, );
 
   if (!props.showModal) {
     return null;
