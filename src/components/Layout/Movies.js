@@ -2,14 +2,20 @@ import React, { useEffect, useState, useRef } from "react";
 import genres from "./genres.json";
 import Modal from "./Modal";
 import classes from "./Movies.module.css";
+import LoadingSpinner from "./LoadingSpinner";
+import keyListeners from "./keyListeners";
 
 const Movies = (props) => {
   const [images, setImages] = useState([]);
   const [movieData, setMovieData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [focus, setFocus] = useState();
+  
 
   useEffect(() => {
+    setIsLoading(true);
     const imgUrls = () => {
       const promises = genres.map((genre) => {
         return fetch(
@@ -25,12 +31,15 @@ const Movies = (props) => {
 
         setMovieData(results);
         setImages(images);
+        setIsLoading(false);
+        
       });
     };
     imgUrls();
   }, []);
 
-  const [focus, setFocus] = useState();
+  
+  
   const focusRef = useRef();
 
   useEffect(() => {
@@ -42,6 +51,7 @@ const Movies = (props) => {
 
   return (
     <div className={classes.mainDiv} name="firstDiv">
+      {isLoading && <LoadingSpinner />}
       {images.map((ele, genreIndex) => {
         <h2 className={classes.h2}>{genres[genreIndex].name}</h2>;
         return (
@@ -57,9 +67,11 @@ const Movies = (props) => {
                     tabIndex="0"
                     alt=""
                     ref={focusRef}
-                    onFocus={function modal() {
+                    onFocus={()=> {
                       setModalData(movieData[genreIndex].results[index]);
                     }}
+                    disabled={isLoading}
+                    
                   />
                 );
               })}
