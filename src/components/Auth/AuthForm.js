@@ -2,6 +2,7 @@ import { useState, useRef, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import AuthContext from "../store/authentication-context";
 import classes from "./AuthForm.module.css";
+import LoadingSpinner from "../Layout/LoadingSpinner";
 
 const AuthForm = () => {
   const emailInputRef = useRef();
@@ -10,6 +11,7 @@ const AuthForm = () => {
   const authCtx = useContext(AuthContext);
 
   const [isLoggingIn, setIsLoggedIn] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
 
   const switchLoggedIn = () => {
@@ -22,19 +24,52 @@ const AuthForm = () => {
     const enteredMail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    if (enteredMail === "example@boopro.tech" && enteredPassword === "123123") {
-      authCtx.login("someTokenSinceIDontHaveARealOne");
-      history.replace("/movies");
-      //save auth token in local storage
-    } else if (enteredMail !== "example@boopro.tech") {
-      alert("Email not Valid");
-    } else if (enteredPassword !== "123123") {
-      alert("incorrect password");
+    setIsLoading(true);
+
+    let url;
+
+    if (isLoggingIn) {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDpTZ8447EgwaJ1b-2m_SsQIJVn02wdB1g";
+    } else {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDpTZ8447EgwaJ1b-2m_SsQIJVn02wdB1g";
     }
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        email: enteredMail,
+        password: enteredPassword,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        setIsLoading(false);
+
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            if (data && data.error && data.error.message) {
+              const errMsg = data.error.message;
+
+              throw new Error(errMsg);
+            }
+          });
+        }
+      })
+      .then((data) => {
+        authCtx.login(data.idToken);
+        history.replace("/logged-in");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
 
-
-  
   return (
     <section className={classes.auth}>
       <h1>{isLoggingIn ? "Login" : "Sign up"}</h1>
@@ -53,7 +88,10 @@ const AuthForm = () => {
           ></input>
         </div>
         <div className={classes.actions}>
-          <button>{isLoggingIn ? "Login" : "Create a New Account"}</button>
+          {!isLoading && (
+            <button>{isLoggingIn ? "Login" : "Create a New Account"}</button>
+          )}
+          {isLoading && <LoadingSpinner />}
           <button
             type="button"
             onClick={switchLoggedIn}

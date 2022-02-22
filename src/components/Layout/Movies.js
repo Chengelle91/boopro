@@ -61,6 +61,7 @@ const Movies = (props) => {
     } else if (event.keyCode === 40) {
       newElement = document.getElementById(y + 1 + x.toString());
     }
+
     if (!newElement) {
       return;
     } else {

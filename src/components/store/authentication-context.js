@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
 const AuthContext = React.createContext({
-  token: "someTokenSinceIDontHaveARealOne",
+  token: "",
   isLoggedIn: false,
   login: (token) => {},
   logout: () => {},
 });
 
 export const AuthContextProvider = (props) => {
-  const initialToken = localStorage.getItem('token')
+  const initialToken = localStorage.getItem('token');
   const [token, setToken] = useState(initialToken);
 
   const userLoggedIn = !!token;

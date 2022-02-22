@@ -5,6 +5,7 @@ import Layout from "./components/Layout/Layout";
 import AuthPage from "./components/pages/AuthPage";
 import MoviesPage from "./components/pages/MoviesPage";
 import AuthContext from "./components/store/authentication-context";
+import StartingLoggedInPage from "./components/StartingPage/StartingLoggedInPage";
 
 
 function App() {
@@ -16,17 +17,24 @@ function App() {
         <Route path="/" exact>
           <HomePage />
         </Route>
-        {!authCtx.isLoggedIn &&<Route path="/auth">
-          <AuthPage />
-        </Route>}
+        {!authCtx.isLoggedIn && (
+          <Route path="/auth">
+            <AuthPage />
+          </Route>
+        )}
         {authCtx.isLoggedIn && (
           <Route path="/movies">
             <MoviesPage />
           </Route>
         )}
-      <Route path='*'>
-        <Redirect to='/'/>
-      </Route>
+        {authCtx.isLoggedIn && (
+          <Route path="/logged-in">
+            <StartingLoggedInPage />
+          </Route>
+        )}
+        <Route path="*">
+          <Redirect to="/" />
+        </Route>
       </Switch>
     </Layout>
   );

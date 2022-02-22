@@ -1,5 +1,5 @@
 import Movies from "../Layout/Movies"
-import { Fragment } from "react/cjs/react.production.min";
+import { Fragment } from "react"
 
 const MoviesPage = () => {
 return (
