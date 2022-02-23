@@ -22,9 +22,10 @@ const Movies = (props) => {
       });
 
       Promise.all(promises).then((results) => {
-        const baseImgUrl = "https://image.tmdb.org/t/p/w500";
         const images = results.map((result) =>
-          result.results.map((poster) => baseImgUrl + poster.poster_path)
+          result.results.map(
+            (poster) => `https://image.tmdb.org/t/p/w500${poster.poster_path}`
+          )
         );
 
         setMovieData(results);
@@ -67,7 +68,7 @@ const Movies = (props) => {
     } else {
       setFocus(newElement);
       newElement.focus();
-      newElement.scrollIntoView();
+      newElement.scrollIntoView(false);
     }
   };
 
