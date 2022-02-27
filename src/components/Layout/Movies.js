@@ -112,6 +112,7 @@ const Movies = (props) => {
         showModal={showModal}
         modalData={modalData}
         onClose={() => setShowModal(false)}
+        imgLink={modalData}
       />
     </div>
   );

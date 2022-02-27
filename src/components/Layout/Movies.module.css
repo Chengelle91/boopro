@@ -5,8 +5,8 @@
   position: relative;
   width: 100%;
   background-color: white;
-  overflow: scroll;
-  overflow-x: scroll;
+  overflow: hidden;
+  overflow-x: hidden;
   overflow-y: hidden;
   scroll-behavior: smooth;
 
@@ -38,3 +38,7 @@
     border: 5px solid red;
   }
 }
+.horlist:focus{
+  border: 10px solid red;
+}
+

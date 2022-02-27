@@ -13,7 +13,8 @@
 }
 
 .modalcontent {
-  width: 600px;
+  width: 800px;
+  height: 600px;
   background-color: #fff;
   border: 5px solid black;
 }
